@@ -2,7 +2,7 @@ package com.ecomerce.backend.services;
 
 import com.ecomerce.backend.entities.Endereco;
 import com.ecomerce.backend.entities.Pessoa;
-import com.ecomerce.backend.entities.Product;
+import com.ecomerce.backend.entities.Produto;
 import com.ecomerce.backend.entities.Usuario;
 import com.ecomerce.backend.entities.enums.Perfil;
 import com.ecomerce.backend.repositories.EnderecoRepository;
@@ -12,9 +12,6 @@ import com.ecomerce.backend.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.time.DayOfWeek;
 
 @Service
 public class DBService {
@@ -45,15 +42,15 @@ public class DBService {
         u2.setPessoa(p1);
         u2.addPerfil(Perfil.CLIENTE);
 
-        Product product = new Product();
-        product.getId();
-        Product product1 = new Product(null, "Relógio","Rolex", 29000.27, 2);
-        Product product2 = new Product(null, "Anel","Vivara", 1299.99, 2);
-        Product product3 = new Product(null, "Óculos","Lacoste", 290.5, 2);
+        Produto produto = new Produto();
+        produto.getId();
+        Produto produto1 = new Produto(null, "Lã Azul","Ovelha", 29000.27, 2);
+        Produto produto2 = new Produto(null, "Lã Preta","Ovelha", 1299.99, 2);
+        Produto produto3 = new Produto(null, "Lã Vermelha","Carneiro", 290.5, 2);
 
-        this.productRepository.save(product1);
-        this.productRepository.save(product2);
-        this.productRepository.save(product3);
+        this.productRepository.save(produto1);
+        this.productRepository.save(produto2);
+        this.productRepository.save(produto3);
 
         pessoaRepository.save(p1);
         enderecoRepository.save(ed1);

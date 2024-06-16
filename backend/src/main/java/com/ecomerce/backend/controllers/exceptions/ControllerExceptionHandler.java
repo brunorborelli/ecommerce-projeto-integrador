@@ -42,4 +42,12 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<StandardError> handleCustomException(CustomException ex,
+                                                               HttpServletRequest request) {
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+                "Custom Exception", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

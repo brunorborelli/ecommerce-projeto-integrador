@@ -2,7 +2,15 @@ package com.ecomerce.backend.entities;
 
 import com.ecomerce.backend.entities.dtos.UsuarioDTO;
 import com.ecomerce.backend.entities.enums.Perfil;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -19,6 +27,8 @@ public class Usuario {
     private Pessoa pessoa;
     @CollectionTable(name = "PERFIS")
     private Perfil perfil;
+//    @OneToMany(mappedBy = "usuario", cascade = CascadeType., orphanRemoval = true)
+//    private List<Pedido> pedidos;
 
 
     public Usuario() {

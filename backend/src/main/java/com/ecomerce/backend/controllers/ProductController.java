@@ -1,6 +1,6 @@
 package com.ecomerce.backend.controllers;
 
-import com.ecomerce.backend.entities.Product;
+import com.ecomerce.backend.entities.Produto;
 import com.ecomerce.backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,27 +15,32 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/")
-    public List<Product> findAll(){
+    public List<Produto> findAll(){
         return this.productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product findById(@PathVariable("id") Long id){
+    public Produto findById(@PathVariable("id") Long id){
         return this.productService.findById(id);
     }
 
     @PostMapping("/")
-    public Product save(@RequestBody Product product){
-        return this.productService.save(product);
+    public Produto save(@RequestBody Produto produto){
+        return this.productService.save(produto);
     }
 
     @PutMapping("/")
-    public Product update(@RequestBody Product product){
-        return this.productService.save(product);
+    public Produto update(@RequestBody Produto produto){
+        return this.productService.save(produto);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id){
         this.productService.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public Produto update(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+        return productService.update(id, produtoAtualizado);
     }
 }
