@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/consulta/create/{email}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/product/").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/v3/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                         .anyRequest().authenticated()
