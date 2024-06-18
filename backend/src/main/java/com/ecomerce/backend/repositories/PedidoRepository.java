@@ -19,3 +19,14 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             @Param("status") Boolean status,
             @Param("statusPedido") Short statusPedido);
 }
+
+//    @Query(value = "SELECT * FROM pedido WHERE " +
+//            "(:status IS NULL OR status = :status) AND " +
+//            "(:statusPedido IS NULL OR status_pedido = :statusPedido) AND"+
+//            "(:usuarioId IS NULL OR usuario_id = :usuarioId)",
+//            nativeQuery = true)
+//    List<Pedido> findPedidosByStatusAndStatusPedido(
+//            @Param("status") Boolean status,
+//            @Param("statusPedido") Short statusPedido,
+//            @Param("usuarioId") Integer id);
+//}

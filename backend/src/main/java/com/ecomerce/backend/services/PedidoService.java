@@ -3,6 +3,8 @@ package com.ecomerce.backend.services;
 import com.ecomerce.backend.entities.Pedido;
 import com.ecomerce.backend.entities.Usuario;
 import com.ecomerce.backend.entities.dtos.PedidoDTO;
+import com.ecomerce.backend.entities.dtos.PedidoResponseDto;
+import com.ecomerce.backend.entities.enums.Perfil;
 import com.ecomerce.backend.enums.StatusPedidoEnum;
 import com.ecomerce.backend.repositories.PedidoRepository;
 import com.ecomerce.backend.security.TokenService;
@@ -50,9 +52,47 @@ public class PedidoService {
         // caso não seja feito, voltar o produto ao estoque e cancelar o pedido
     }
 
-    public List<Pedido> buscarPedidos(Boolean status, Short statusPedido) {
-        return pedidoRepository.findPedidosByStatusAndStatusPedido(status, statusPedido);
+    public List<Pedido> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String email = tokenService.validateToken(token);
+        Usuario user = usuarioService.findByEmail(email);
+
+        List<Pedido> pedidos = pedidoRepository.findPedidosByStatusAndStatusPedido(status, statusPedido);
+        if (!user.getPerfil().equals(Perfil.ADMIN)) {
+            pedidos = pedidos.stream()
+                    .filter(pedido -> pedido.getUsuario().getId().equals(user.getId()))
+                    .collect(Collectors.toList());
+        }
+        return pedidos;
+        }
+
+//    public List<PedidoResponseDto> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
+//        String token = authHeader.replace("Bearer ", "");
+//        String email = tokenService.validateToken(token);
+//        Usuario user = usuarioService.findByEmail(email);
+//
+//        List<Pedido> pedidos = pedidoRepository.findPedidosByStatusAndStatusPedido(status, statusPedido);
+//        if (!user.getPerfil().equals(Perfil.ADMIN)) {
+//            pedidos = pedidos.stream()
+//                    .filter(pedido -> pedido.getUsuario().getId().equals(user.getId()))
+//                    .collect(Collectors.toList());
+//        }
+//        List<PedidoResponseDto> pedidoResponseDto = pedidos.stream()
+//                .map(this::convertToResponseDto)
+//                .collect(Collectors.toList());
+//        return pedidoResponseDto;
+//    }
+
+    private PedidoResponseDto convertToResponseDto(Pedido pedido) {
+        return new PedidoResponseDto(
+                pedido.getId(),
+                pedido.getProdutoId(),
+                pedido.getQuantidade(),
+                pedido.getStatusPedido(),
+                pedido.getStatus(),
+                pedido.getDataHora(),
+                pedido.getDataHoraUltimaAlteracao(),
+                null
+                );
     }
-
-
 }

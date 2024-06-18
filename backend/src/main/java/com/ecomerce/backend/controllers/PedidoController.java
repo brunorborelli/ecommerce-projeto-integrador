@@ -32,8 +32,9 @@ public class PedidoController {
     @GetMapping
     public ResponseEntity<List<Pedido>> getPedidos(
             @RequestParam(required = false) Boolean status,
-            @RequestParam(required = false) Short statusPedido) {
-        List<Pedido> pedidos = pedidoService.buscarPedidos(status, statusPedido);
+            @RequestParam(required = false) Short statusPedido,
+            @RequestHeader("Authorization") String authHeader) {
+        List<Pedido> pedidos = pedidoService.buscarPedidos(status, statusPedido, authHeader);
         return ResponseEntity.ok(pedidos);
     }
 }
