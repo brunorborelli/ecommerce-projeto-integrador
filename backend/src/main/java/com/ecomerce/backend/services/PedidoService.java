@@ -95,7 +95,7 @@ public class PedidoService {
                 pedido.getStatus(),
                 pedido.getDataHora(),
                 pedido.getDataHoraUltimaAlteracao(),
-                null
+                pedido.getUsuario()
                 );
     }
 }

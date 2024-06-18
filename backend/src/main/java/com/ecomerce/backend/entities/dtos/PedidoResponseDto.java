@@ -1,5 +1,6 @@
 package com.ecomerce.backend.entities.dtos;
 
+import com.ecomerce.backend.entities.Usuario;
 import com.ecomerce.backend.enums.StatusPedidoEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,5 +20,5 @@ public class PedidoResponseDto {
     private Boolean status;
     private LocalDateTime dataHora;
     private LocalDateTime dataHoraUltimaAlteracao;
-    private UsuarioDTO usuario;
+    private Usuario usuario;
 }
