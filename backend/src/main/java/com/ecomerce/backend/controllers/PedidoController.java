@@ -1,7 +1,7 @@
 package com.ecomerce.backend.controllers;
 
-import com.ecomerce.backend.entities.Pedido;
 import com.ecomerce.backend.entities.dtos.PedidoDTO;
+import com.ecomerce.backend.entities.dtos.PedidoResponseDto;
 import com.ecomerce.backend.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +29,21 @@ public class PedidoController {
         return ResponseEntity.ok().build();
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<Pedido>> getPedidos(
+//            @RequestParam(required = false) Boolean status,
+//            @RequestParam(required = false) Short statusPedido,
+//            @RequestHeader("Authorization") String authHeader) {
+//        List<Pedido> pedidos = pedidoService.buscarPedidos(status, statusPedido, authHeader);
+//        return ResponseEntity.ok(pedidos);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<Pedido>> getPedidos(
+    public ResponseEntity<List<PedidoResponseDto>> getPedidos(
             @RequestParam(required = false) Boolean status,
             @RequestParam(required = false) Short statusPedido,
             @RequestHeader("Authorization") String authHeader) {
-        List<Pedido> pedidos = pedidoService.buscarPedidos(status, statusPedido, authHeader);
+        List<PedidoResponseDto> pedidos = pedidoService.buscarPedidos(status, statusPedido, authHeader);
         return ResponseEntity.ok(pedidos);
     }
 }

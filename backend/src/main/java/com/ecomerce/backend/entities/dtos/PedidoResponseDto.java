@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class PedidoResponseDto {
     private Integer id;
     private Integer produtoId;
+    private String nomeProduto;
     private Integer quantidade;
     private StatusPedidoEnum statusPedido;
     private Boolean status;

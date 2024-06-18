@@ -1,6 +1,7 @@
 package com.ecomerce.backend.services;
 
 import com.ecomerce.backend.entities.Pedido;
+import com.ecomerce.backend.entities.Produto;
 import com.ecomerce.backend.entities.Usuario;
 import com.ecomerce.backend.entities.dtos.PedidoDTO;
 import com.ecomerce.backend.entities.dtos.PedidoResponseDto;
@@ -52,21 +53,7 @@ public class PedidoService {
         // caso não seja feito, voltar o produto ao estoque e cancelar o pedido
     }
 
-    public List<Pedido> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
-        String token = authHeader.replace("Bearer ", "");
-        String email = tokenService.validateToken(token);
-        Usuario user = usuarioService.findByEmail(email);
-
-        List<Pedido> pedidos = pedidoRepository.findPedidosByStatusAndStatusPedido(status, statusPedido);
-        if (!user.getPerfil().equals(Perfil.ADMIN)) {
-            pedidos = pedidos.stream()
-                    .filter(pedido -> pedido.getUsuario().getId().equals(user.getId()))
-                    .collect(Collectors.toList());
-        }
-        return pedidos;
-        }
-
-//    public List<PedidoResponseDto> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
+//    public List<Pedido> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
 //        String token = authHeader.replace("Bearer ", "");
 //        String email = tokenService.validateToken(token);
 //        Usuario user = usuarioService.findByEmail(email);
@@ -77,16 +64,32 @@ public class PedidoService {
 //                    .filter(pedido -> pedido.getUsuario().getId().equals(user.getId()))
 //                    .collect(Collectors.toList());
 //        }
-//        List<PedidoResponseDto> pedidoResponseDto = pedidos.stream()
-//                .map(this::convertToResponseDto)
-//                .collect(Collectors.toList());
-//        return pedidoResponseDto;
-//    }
+//        return pedidos;
+//        }
+
+    public List<PedidoResponseDto> buscarPedidos(Boolean status, Short statusPedido,String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String email = tokenService.validateToken(token);
+        Usuario user = usuarioService.findByEmail(email);
+
+        List<Pedido> pedidos = pedidoRepository.findPedidosByStatusAndStatusPedido(status, statusPedido);
+        if (!user.getPerfil().equals(Perfil.ADMIN)) {
+            pedidos = pedidos.stream()
+                    .filter(pedido -> pedido.getUsuario().getId().equals(user.getId()))
+                    .collect(Collectors.toList());
+        }
+        List<PedidoResponseDto> pedidoResponseDto = pedidos.stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+        return pedidoResponseDto;
+    }
 
     private PedidoResponseDto convertToResponseDto(Pedido pedido) {
+        Produto produto = productService.findById(Long.valueOf(pedido.getProdutoId()));
         return new PedidoResponseDto(
                 pedido.getId(),
                 pedido.getProdutoId(),
+                produto.getName(),
                 pedido.getQuantidade(),
                 pedido.getStatusPedido(),
                 pedido.getStatus(),
